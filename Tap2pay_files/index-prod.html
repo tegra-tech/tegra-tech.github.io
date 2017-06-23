@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Drift Messenger</title>
+  <!-- base href="https://js.driftt.com/dist/index-prod.html" -->
+  <link rel="stylesheet" href="index-prod_data/normalize.css">
+<link href="index-prod_data/widget-2a6ed58cc98852453b268e444591191f-prod.css" rel="stylesheet"><script type="text/javascript">// Promises 
+var _eid_promises = {}; 
+// Turn the incoming message from extension 
+// into pending Promise resolving 
+window.addEventListener("message", function(event) { 
+    if(event.source !== window) return; 
+    if(event.data.src && (event.data.src === "background.js")) { 
+        console.log("Page received: "); 
+        console.log(event.data); 
+        // Get the promise 
+        if(event.data.nonce) { 
+            var p = _eid_promises[event.data.nonce]; 
+            // resolve 
+            if(event.data.result === "ok") { 
+                if(event.data.signature !== undefined) { 
+                    p.resolve({hex: event.data.signature}); 
+                } else if(event.data.version !== undefined) { 
+                    p.resolve(event.data.extension + "/" + event.data.version); 
+                } else if(event.data.cert !== undefined) { 
+                    p.resolve({hex: event.data.cert}); 
+                } else { 
+                    console.log("No idea how to handle message"); 
+                    console.log(event.data); 
+                } 
+            } else { 
+                // reject 
+                p.reject(new Error(event.data.result)); 
+            } 
+            delete _eid_promises[event.data.nonce]; 
+        } else { 
+            console.log("No nonce in event msg"); 
+        } 
+    } 
+}, false); 
+ 
+ 
+function TokenSigning() { 
+    function nonce() { 
+        var val = ""; 
+        var hex = "abcdefghijklmnopqrstuvwxyz0123456789"; 
+        for(var i = 0; i < 16; i++) val += hex.charAt(Math.floor(Math.random() * hex.length)); 
+        return val; 
+    } 
+ 
+    function messagePromise(msg) { 
+        return new Promise(function(resolve, reject) { 
+            // amend with necessary metadata 
+            msg["nonce"] = nonce(); 
+            msg["src"] = "page.js"; 
+            // send message 
+            window.postMessage(msg, "*"); 
+            // and store promise callbacks 
+            _eid_promises[msg.nonce] = { 
+                resolve: resolve, 
+                reject: reject 
+            }; 
+        }); 
+    } 
+    this.getCertificate = function(options) { 
+        var msg = {type: "CERT", lang: options.lang}; 
+        console.log("getCertificate()"); 
+        return messagePromise(msg); 
+    }; 
+    this.sign = function(cert, hash, options) { 
+        var msg = {type: "SIGN", cert: cert.hex, hash: hash.hex, hashtype: hash.type, lang: options.lang}; 
+        console.log("sign()"); 
+        return messagePromise(msg); 
+    }; 
+    this.getVersion = function() { 
+        console.log("getVersion()"); 
+        return messagePromise({ 
+            type: "VERSION" 
+        }); 
+    }; 
+}</script><style id="erd_scroll_detection_scrollbar_style">/* Created by the element-resize-detector library. */
+.erd_scroll_detection_container > div::-webkit-scrollbar { display: none; }
+
+.erd_scroll_detection_container_animation_active { -webkit-animation-duration: 0.1s; animation-duration: 0.1s; -webkit-animation-name: erd_scroll_detection_container_animation; animation-name: erd_scroll_detection_container_animation; }
+@-webkit-keyframes erd_scroll_detection_container_animation { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
+@keyframes erd_scroll_detection_container_animation { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }</style></head>
+<body>
+  <div id="root"><div data-reactroot="" class="widget-container body-font Brandon"><div style="position: fixed; left: -10000px; visibility: hidden;"><span style="font-weight: 400;"></span><span style="font-weight: 500;"></span><span style="font-weight: 600;"></span></div><div class="_2ngXYtlcHXA-EjBwuz_RKI"><span class="_3KIigMno8L7h1L-RI5I_KX" style="width: 100%;"></span><button class="_2So8ItJQ9P6IqaCUlCO-2f flex-center CHAT _3S6qOFxcrgO0yM2f9_l6JZ _364Vk0R65B1GXViJwyA9fM" style="background-color: rgb(1, 118, 255); fill: rgb(255, 255, 255);"><i class="_1ZSagdd_Wbj_ZKw0RkZfOn"><svg width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg"><path d="M22.814 12.25h-1.362v3.063a1.02 1.02 0 0 1-1.744.72L15.92 12.25H11.92c-.94 0-1.703-.785-1.703-1.75V1.75c0-.965.764-1.75 1.703-1.75h10.896c.938 0 1.702.785 1.702 1.75v8.75c0 .965-.764 1.75-1.702 1.75zm-.34-10.208H12.257v8.166h4.086a1.032 1.032 0 0 1 .723.3l2.342 2.34v-1.62c0-.562.456-1.02 1.02-1.02h2.043V2.042zM8.17 10.208h-6.13v8.167h2.044c.564 0 1.022.457 1.022 1.02v1.62l2.34-2.34a1.022 1.022 0 0 1 .724-.3h4.086V14.29a1.02 1.02 0 0 1 2.043 0v4.377c0 .965-.763 1.75-1.702 1.75H8.595L4.808 24.2a1.022 1.022 0 0 1-1.743-.72v-3.063H1.702c-.938 0-1.702-.785-1.702-1.75v-8.75c0-.965.764-1.75 1.702-1.75h6.47a1.022 1.022 0 0 1 0 2.04z" fill="#FFF" fill-rule="evenodd"></path></svg></i></button><div class="erd_scroll_detection_container erd_scroll_detection_container_animation_active" style="visibility: hidden; display: inline; width: 0px; height: 0px; z-index: -1; overflow: hidden; margin: 0px; padding: 0px;"><div dir="ltr" style="position: absolute; flex: 0 0 auto; overflow: hidden; z-index: -1; visibility: hidden; width: 100%; height: 100%; left: 0px; top: 0px;" class="erd_scroll_detection_container"><div class="erd_scroll_detection_container" style="position: absolute; flex: 0 0 auto; overflow: hidden; z-index: -1; visibility: hidden; left: -15px; top: -15px; right: -14px; bottom: -14px;"><div style="position: absolute; flex: 0 0 auto; overflow: scroll; z-index: -1; visibility: hidden; width: 100%; height: 100%;"><div style="position: absolute; left: 0px; top: 0px; width: 115px; height: 115px;"></div></div><div style="position: absolute; flex: 0 0 auto; overflow: scroll; z-index: -1; visibility: hidden; width: 100%; height: 100%;"><div style="position: absolute; width: 200%; height: 200%;"></div></div></div></div></div></div></div></div>
+  <script>(function(e){function c(r){if(a[r])return a[r].exports;var t=a[r]={i:r,l:!1,exports:{}};return e[r].call(t.exports,t,t.exports,c),t.l=!0,t.exports}var r=window.driftWebpackJsonp;window.driftWebpackJsonp=function(a,n,f){for(var o,d,b,i=0,u=[];i<a.length;i++)d=a[i],t[d]&&u.push(t[d][0]),t[d]=0;for(o in n)Object.prototype.hasOwnProperty.call(n,o)&&(e[o]=n[o]);for(r&&r(a,n,f);u.length;)u.shift()();if(f)for(i=0;i<f.length;i++)b=c(c.s=f[i]);return b};var a={},t={34:0};c.e=function(e){function r(){n.onerror=n.onload=null,clearTimeout(f);var c=t[e];0!==c&&(c&&c[1](new Error("Loading chunk "+e+" failed.")),t[e]=void 0)}if(0===t[e])return Promise.resolve();if(t[e])return t[e][2];var a=document.getElementsByTagName("head")[0],n=document.createElement("script");n.type="text/javascript",n.charset="utf-8",n.async=!0,n.timeout=12e4,c.nc&&n.setAttribute("nonce",c.nc),n.src=c.p+"assets/"+({32:"vendor",33:"widget"}[e]||e)+"-"+{0:"964811067de07ae71ea7",1:"0245f968ae10def1762a",2:"ab630e2e01fae4824157",3:"bc5ce69cb7ba865f4c4b",4:"9f2dfe85cd41ddcf47aa",5:"f4f734637e6dddf631ea",6:"97ebadc04fe83019210d",7:"c3bbdbc54f1c395f6ebd",8:"26811975c5e45d3a77c2",9:"fe9ea409a97ed83a3474",10:"c179843626173a4e9952",11:"972dae53e1c7f292011c",12:"7ee2c16ab0b2802ad856",13:"b842e3de3e4d0361b275",14:"cf06680e8e4930abca8d",15:"5606e3e8b6ea901c5133",16:"89a2b30248e426c68063",17:"97b3fee7061bbd118ce3",18:"a7f95498c2bddcb1e1d6",19:"4932b5a488df625ea7b4",20:"ac0b732ee996de75e442",21:"c727d56c78e661e70598",22:"e0a1190eabfc245c652e",23:"c3e050f4a161358cf9e3",24:"7a7c54e671dbc08c30f8",25:"be28749a04eb6c4e1bc7",26:"43f53be7b62f90c2f881",27:"7586bfce91c59706015f",28:"ae02eb79a7a908275bb3",29:"d21352d6473a1eefa486",30:"e7ee60c2e1a5702a2931",31:"1d7b40ee2b1e3aafc4f8",32:"fcc48618304fc192e4d2",33:"459e18dfef45fec08ba6"}[e]+"-prod.js";var f=setTimeout(r,12e4);n.onerror=n.onload=r;var o=new Promise(function(c,r){t[e]=[c,r]});return t[e][2]=o,a.appendChild(n),o},c.m=e,c.c=a,c.i=function(e){return e},c.d=function(e,r,a){c.o(e,r)||Object.defineProperty(e,r,{configurable:!1,enumerable:!0,get:a})},c.n=function(e){var r=e&&e.__esModule?function(){return e.default}:function(){return e};return c.d(r,"a",r),r},c.o=function(e,c){return Object.prototype.hasOwnProperty.call(e,c)},c.p="https://js.driftt.com/dist/",c.oe=function(e){throw console.error(e),e}})([]);</script>
+<script type="text/javascript" src="index-prod_data/vendor-fcc48618304fc192e4d2-prod.js"></script><script type="text/javascript" src="index-prod_data/widget-459e18dfef45fec08ba6-prod.js"></script>
+
+</body></html>
