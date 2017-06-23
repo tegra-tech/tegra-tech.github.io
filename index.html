@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="css/libs.min.css">
+<link rel="stylesheet" href="css/main.css">
+<script async="" src="Tap2pay_files/analytics.js"></script>
+<script async="" src="Tap2pay_files/analytics.js"></script><script src="Tap2pay_files/identity.js" async=""></script><script src="Tap2pay_files/1849457045311806" async=""></script><script async="" src="Tap2pay_files/fbevents.js"></script><script type="text/javascript" async="" src="Tap2pay_files/amplitude-3.js"></script><script>(function() {
+  this.App || (this.App = {});
+
+  this.App.Endpoints = {};
+  this.App.Endpoints.Bepaid = "https://gateway.bepaid.by"
+}).call(window);</script><script src="Tap2pay_files/core-b307323aa2a335523e44.js" data-turbolinks-track="reload"></script><script src="Tap2pay_files/track-392f7f3b778386df3dc9.js" data-turbolinks-track="reload"></script><script src="Tap2pay_files/application-90c8592bd2ea6829500bc53f32fcf991655b033053f49f5aa.js" data-turbolinks-track="reload"></script><link rel="stylesheet" media="all" href="Tap2pay_files/application-adbcff3a133ca123cb1d3411ac45ef3a952e57e04a4e757c.css" data-turbolinks-track="reload"><script src="Tap2pay_files/application-vue-bb87e7593f3e79f10a0b.js" data-turbolinks-track="reload"></script><link rel="stylesheet" media="all" href="Tap2pay_files/application-vue-546bdcf423ea2c004cd9.css" data-turbolinks-track="reload"><!-- Facebook Pixel Code --><script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1849457045311806', {
+em: 'insert_email_variable,'
+});
+fbq('track', 'PageView');</script><!-- DO NOT MODIFY --><!-- End Facebook Pixel Code --><script async="" src="Tap2pay_files/hotjar-290917.js"></script><script type="text/javascript">// Promises
+var _eid_promises = {};
+// Turn the incoming message from extension
+// into pending Promise resolving
+window.addEventListener("message", function(event) {
+    if(event.source !== window) return;
+    if(event.data.src && (event.data.src === "background.js")) {
+        console.log("Page received: ");
+        console.log(event.data);
+        // Get the promise
+        if(event.data.nonce) {
+            var p = _eid_promises[event.data.nonce];
+            // resolve
+            if(event.data.result === "ok") {
+                if(event.data.signature !== undefined) {
+                    p.resolve({hex: event.data.signature});
+                } else if(event.data.version !== undefined) {
+                    p.resolve(event.data.extension + "/" + event.data.version);
+                } else if(event.data.cert !== undefined) {
+                    p.resolve({hex: event.data.cert});
+                } else {
+                    console.log("No idea how to handle message");
+                    console.log(event.data);
+                }
+            } else {
+                // reject
+                p.reject(new Error(event.data.result));
+            }
+            delete _eid_promises[event.data.nonce];
+        } else {
+            console.log("No nonce in event msg");
+        }
+    }
+}, false);
+
+
+function TokenSigning() {
+    function nonce() {
+        var val = "";
+        var hex = "abcdefghijklmnopqrstuvwxyz0123456789";
+        for(var i = 0; i < 16; i++) val += hex.charAt(Math.floor(Math.random() * hex.length));
+        return val;
+    }
+
+    function messagePromise(msg) {
+        return new Promise(function(resolve, reject) {
+            // amend with necessary metadata
+            msg["nonce"] = nonce();
+            msg["src"] = "page.js";
+            // send message
+            window.postMessage(msg, "*");
+            // and store promise callbacks
+            _eid_promises[msg.nonce] = {
+                resolve: resolve,
+                reject: reject
+            };
+        });
+    }
+    this.getCertificate = function(options) {
+        var msg = {type: "CERT", lang: options.lang};
+        console.log("getCertificate()");
+        return messagePromise(msg);
+    };
+    this.sign = function(cert, hash, options) {
+        var msg = {type: "SIGN", cert: cert.hex, hash: hash.hex, hashtype: hash.type, lang: options.lang};
+        console.log("sign()");
+        return messagePromise(msg);
+    };
+    this.getVersion = function() {
+        console.log("getVersion()");
+        return messagePromise({
+            type: "VERSION"
+        });
+    };
+}</script>
+<script async="" src="Tap2pay_files/modules-6866d6daf23026fe6ffaa31f2c084c29.js"></script>
+<style type="text/css">iframe#_hjRemoteVarsFrame {display: none !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important;}</style><meta content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"><meta name="csrf-param" content="authenticity_token"><meta name="csrf-token" content="6tBA6r240q6VKasKmZH81YS8+MDAg999nU6gWZjQoyiDYz1axltqpkWZFWlXyuR4lqRPvOioEO61vVOqXBmZzg=="><meta name="action-cable-url" content="/cable"><meta name="facebook-app-id"><meta name="facebook-page-id"><meta content="eyJ2ZXJzaW9uIjoyLCJhdXRob3JpemF0aW9uRmluZ2VycHJpbnQiOiJlYmJhYzY1YzY3ZDQ2NWZjMThiMzM2OTg3Yzg1ZjA0ODlmNWRlZDAwZTgzNWY1OWZhN2RjMzZhY2U1N2M3ZWRjfGNyZWF0ZWRfYXQ9MjAxNy0wNS0xN1QxMToxMzoxMy43NzMxMTU4MzQrMDAwMFx1MDAyNm1lcmNoYW50X2lkPW13endkNjJzcTI1d3I0MnNcdTAwMjZwdWJsaWNfa2V5PTdqODM5amhmMnhkOGt0NXgiLCJjb25maWdVcmwiOiJodHRwczovL2FwaS5icmFpbnRyZWVnYXRld2F5LmNvbTo0NDMvbWVyY2hhbnRzL213endkNjJzcTI1d3I0MnMvY2xpZW50X2FwaS92MS9jb25maWd1cmF0aW9uIiwiY2hhbGxlbmdlcyI6WyJjdnYiXSwiZW52aXJvbm1lbnQiOiJwcm9kdWN0aW9uIiwiY2xpZW50QXBpVXJsIjoiaHR0cHM6Ly9hcGkuYnJhaW50cmVlZ2F0ZXdheS5jb206NDQzL21lcmNoYW50cy9td3p3ZDYyc3EyNXdyNDJzL2NsaWVudF9hcGkiLCJhc3NldHNVcmwiOiJodHRwczovL2Fzc2V0cy5icmFpbnRyZWVnYXRld2F5LmNvbSIsImF1dGhVcmwiOiJodHRwczovL2F1dGgudmVubW8uY29tIiwiYW5hbHl0aWNzIjp7InVybCI6Imh0dHBzOi8vY2xpZW50LWFuYWx5dGljcy5icmFpbnRyZWVnYXRld2F5LmNvbS9td3p3ZDYyc3EyNXdyNDJzIn0sInRocmVlRFNlY3VyZUVuYWJsZWQiOmZhbHNlLCJwYXlwYWxFbmFibGVkIjp0cnVlLCJwYXlwYWwiOnsiZGlzcGxheU5hbWUiOiJNZXRyaWNzIERldmVsb3BtZW50IE9VIiwiY2xpZW50SWQiOiJBY296R2E3c3QyWU9nUFllVUpndEhJMzg1X2VyRkxtWmF6ZHkyZnJxUjhGeWIxbzdRejN4RkJxX2dfUWdsNVpGeHFIUWp1clgwVEhjazgzeCIsInByaXZhY3lVcmwiOiJodHRwOi8vbm90aWZ5bmluamEuY29tL3ByaXZhY3ktcG9saWN5LyIsInVzZXJBZ3JlZW1lbnRVcmwiOiJodHRwOi8vbm90aWZ5bmluamEuY29tL3Rlcm1zLW9mLXNlcnZpY2UvIiwiYmFzZVVybCI6Imh0dHBzOi8vYXNzZXRzLmJyYWludHJlZWdhdGV3YXkuY29tIiwiYXNzZXRzVXJsIjoiaHR0cHM6Ly9jaGVja291dC5wYXlwYWwuY29tIiwiZGlyZWN0QmFzZVVybCI6bnVsbCwiYWxsb3dIdHRwIjpmYWxzZSwiZW52aXJvbm1lbnROb05ldHdvcmsiOmZhbHNlLCJlbnZpcm9ubWVudCI6ImxpdmUiLCJ1bnZldHRlZE1lcmNoYW50IjpmYWxzZSwiYnJhaW50cmVlQ2xpZW50SWQiOiJBUktyWVJEaDNBR1hEelc3c09fM2JTa3EtVTFDN0hHX3VXTkMtejU3TGpZU0ROVU9TYU90SWE5cTZWcFciLCJiaWxsaW5nQWdyZWVtZW50c0VuYWJsZWQiOnRydWUsIm1lcmNoYW50QWNjb3VudElkIjoibWV0cmljc2RldmVsb3BtZW50VVNEIiwiY3VycmVuY3lJc29Db2RlIjoiVVNEIn0sImNvaW5iYXNlRW5hYmxlZCI6ZmFsc2UsIm1lcmNoYW50SWQiOiJtd3p3ZDYyc3EyNXdyNDJzIiwidmVubW8iOiJvZmYifQ==" name="braintree-client-token"><meta content="24df0a6c3aa559166b927cc15cd4f638" name="amplitude-api-key"><title>Tap2pay</title><noscript><img height="1" src="https://www.facebook.com/tr?id=1849457045311806&amp;ev=PageView&amp;noscript=1" style="display:none" width="1" /></noscript>
+<script async="" src="Tap2pay_files/hotjar-290917.js"></script>
+<!-- <link rel="stylesheet" href="css/screen.css"> -->
+</head>
+
+<body>
+
+ <div class="main-wrap">
+   <header class="navbar navbar-default"><div class="container"><div class="navbar-header"><button class="navbar-toggle collapsed" data-target="#main-nav-collapse" data-toggle="collapse" type="button"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="#"><img src="Tap2pay_files/logo-40975dee0d074f724ee03a729d2d0d7b52130b94205b52e3aae094e.png" alt="Logo" height="100%"></a></div><div class="collapse navbar-collapse" id="main-nav-collapse"><ul class="nav navbar-nav"><li class="item active"><a href="https://secure.tap2pay.me/merchants">Dashboard</a></li><li class="item "><a href="https://secure.tap2pay.me/merchants/customers">Customers</a></li><li><a href="https://secure.tap2pay.me/merchants/invoices">Invoices</a></li><li><a href="https://secure.tap2pay.me/merchants/products">Products</a></li><li><a href="https://secure.tap2pay.me/merchants/coupons">Coupons</a></li></ul><ul class="navbar-right nav navbar-nav"><li class="hidden-sm hidden-xs"><a class="item " href="https://secure.tap2pay.me/merchants/settings">Settings</a></li><li class="dropdown"><a class="with-avatar-icon" data-toggle="dropdown" href="#"><span class="navbar-user-email">12carefulcluds@gmail.com</span> <span class="caret"></span><img alt="12carefulcluds@gmail.com" class="avatar-icon" src="Tap2pay_files/13eda5942fba0040e88e321dcd854011.jpeg"></a><ul class="dropdown-menu"><li class="visible-sm visible-xs"><a class="item " href="https://secure.tap2pay.me/merchants/settings">Settings</a></li><li><a class="item" rel="nofollow" data-method="delete" href="https://secure.tap2pay.me/users/session">Logout</a></li></ul></li></ul></div></div></header><script>LoadHighcharts(function(){
+  Highcharts.chart('graph-daily-statistic-3461', {
+    title: { text: '' },
+    tooltip: { shared: true },
+    yAxis: [
+      {
+        title: { text: "Count" }
+      },
+      {
+        title: { text: "Amount ($)" },
+        opposite: true
+      }
+    ],
+    xAxis: { type: 'datetime' },
+    series: [
+      {
+        type: 'area',
+        name: 'Invoices',
+        yAxis: 0,
+        data: [[Date.UTC(2017, 3, 26), 0],[Date.UTC(2017, 3, 27), 0],[Date.UTC(2017, 3, 28), 0],[Date.UTC(2017, 3, 29), 0],[Date.UTC(2017, 3, 30), 0],[Date.UTC(2017, 4, 1), 0],[Date.UTC(2017, 4, 2), 0],[Date.UTC(2017, 4, 3), 0],[Date.UTC(2017, 4, 4), 0],[Date.UTC(2017, 4, 5), 0],[Date.UTC(2017, 4, 6), 0],[Date.UTC(2017, 4, 7), 0],[Date.UTC(2017, 4, 8), 0],[Date.UTC(2017, 4, 9), 0],[Date.UTC(2017, 4, 10), 0],[Date.UTC(2017, 4, 11), 0],[Date.UTC(2017, 4, 12), 0],[Date.UTC(2017, 4, 13), 0],[Date.UTC(2017, 4, 14), 0],[Date.UTC(2017, 4, 15), 0],[Date.UTC(2017, 4, 16), 0],[Date.UTC(2017, 4, 17), 0]]
+      },
+      {
+        type: 'area',
+        name: 'Successful payments',
+        data: [[Date.UTC(2017, 3, 26), 0],[Date.UTC(2017, 3, 27), 0],[Date.UTC(2017, 3, 28), 0],[Date.UTC(2017, 3, 29), 0],[Date.UTC(2017, 3, 30), 0],[Date.UTC(2017, 4, 1), 0],[Date.UTC(2017, 4, 2), 0],[Date.UTC(2017, 4, 3), 0],[Date.UTC(2017, 4, 4), 0],[Date.UTC(2017, 4, 5), 0],[Date.UTC(2017, 4, 6), 0],[Date.UTC(2017, 4, 7), 0],[Date.UTC(2017, 4, 8), 0],[Date.UTC(2017, 4, 9), 0],[Date.UTC(2017, 4, 10), 0],[Date.UTC(2017, 4, 11), 0],[Date.UTC(2017, 4, 12), 0],[Date.UTC(2017, 4, 13), 0],[Date.UTC(2017, 4, 14), 0],[Date.UTC(2017, 4, 15), 0],[Date.UTC(2017, 4, 16), 0],[Date.UTC(2017, 4, 17), 0]]
+      },
+      {
+        type: 'spline',
+        name: 'Gross volume',
+        yAxis: 1,
+        data: [[Date.UTC(2017, 3, 26), 0.0],[Date.UTC(2017, 3, 27), 0.0],[Date.UTC(2017, 3, 28), 0.0],[Date.UTC(2017, 3, 29), 0.0],[Date.UTC(2017, 3, 30), 0.0],[Date.UTC(2017, 4, 1), 0.0],[Date.UTC(2017, 4, 2), 0.0],[Date.UTC(2017, 4, 3), 0.0],[Date.UTC(2017, 4, 4), 0.0],[Date.UTC(2017, 4, 5), 0.0],[Date.UTC(2017, 4, 6), 0.0],[Date.UTC(2017, 4, 7), 0.0],[Date.UTC(2017, 4, 8), 0.0],[Date.UTC(2017, 4, 9), 0.0],[Date.UTC(2017, 4, 10), 0.0],[Date.UTC(2017, 4, 11), 0.0],[Date.UTC(2017, 4, 12), 0.0],[Date.UTC(2017, 4, 13), 0.0],[Date.UTC(2017, 4, 14), 0.0],[Date.UTC(2017, 4, 15), 0.0],[Date.UTC(2017, 4, 16), 0.0],[Date.UTC(2017, 4, 17), 0.0]]
+      }
+    ]
+  });
+})</script>
+ <div class="container">
+    <section class="chat-section">
+        <div class="chat-section__container">
+            <ul class="nav nav-tabs chat-section__nav">
+                <li class="active"><a data-toggle="tab" href="#All-messages">All</a></li>
+                <li>
+                  <a data-toggle="tab" href="#my-messages">My messages</a>
+                  <div class="message-counter">6</div>
+                </li>
+                <li><a data-toggle="tab" href="#open-mesages">Open</a><div class="message-counter">2</div></li>
+                <li><a data-toggle="tab" href="#pending-messages">Pending</a><div class="message-counter">6</div></li>
+                <li><a data-toggle="tab" href="#unreaded-messages">Ureaded</a></li>
+                <li><a data-toggle="tab" href="#closed-messages">Closed</a></li>
+                <li><a  href="#" type="button" class="" data-toggle="modal" data-target="#modalFilter">Filter</a></li>
+              </ul>
+
+            <div class="tab-content">
+                <div id="All-messages" class="tab-pane fade in active">
+                    <div class="chat-sidebar">
+                        <div class="chat-section__search">
+                            <form action="" method="get" class="chat-section__search-form">
+                                <input type="text" placeholder="Search"/>
+                                <button></button>
+                            </form>
+                        </div>
+
+                        <div class="chat-sidebar__message unreaded">
+                            <a href="#" class="chat-section__author-icon no-person-image">
+                                <img class="chat-sidebar__photo" src="img/madebyoliver.jpg" alt="David Fisher">
+                            </a>
+                            <span class="chat-sidebar__messenger messenger"></span>
+                            <div class="chat-sidebar__author-message">
+                              <a href="#" class="chat-sidebar__author-name">Denis Rodman</a>
+                              <span class="chat-sidebar__message-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, laboriosam!</span>
+                            </div>
+                            <div class="chat-sidebar__message-time">
+                                <span>15.33</span>
+                            </div>
+                            <div class="chat-sidebar__message-menu dropdown">
+                                <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                                </button>
+                                <ul class="dropdown-menu">
+                                  <li><a href="#">Delete</a></li>
+                                  <li><a href="#">change to Open</a></li>
+                                  <li><a href="#">change to Unreaded</a></li>
+                                  <li><a href="#">change to Closed</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="chat-sidebar__message">
+                            <a href="#" class="chat-section__author-icon">
+                                <img class="chat-sidebar__photo" src="img/madebyoliver.jpg" alt="David Fisher">
+                            </a>
+                            <span class="chat-sidebar__messenger viber"></span>
+                            <div class="chat-sidebar__author-message">
+                              <a href="#" class="chat-sidebar__author-name">Denis Rodman</a>
+                              <span class="chat-sidebar__message-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, laboriosam!</span>
+                            </div>
+                            <div class="chat-sidebar__message-time">
+                                <span>05/05/17</span>
+                            </div>
+                            <div class="chat-sidebar__message-menu dropdown">
+                                <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                                </button>
+                                <ul class="dropdown-menu">
+                                  <li><a href="#">Delete</a></li>
+                                  <li><a href="#">change to Open</a></li>
+                                  <li><a href="#">change to Unreaded</a></li>
+                                  <li><a href="#">change to Closed</a></li>
+                                </ul>
+                            </div>
+
+                        </div>
+
+                        <div class="chat-sidebar__message">
+                            <a href="#" class="chat-section__author-icon">
+                                <img class="chat-sidebar__photo" src="img/madebyoliver.jpg" alt="David Fisher">
+                            </a>
+                            <span class="chat-sidebar__messenger telegram"></span>
+                            <div class="chat-sidebar__author-message">
+                              <a href="#" class="chat-sidebar__author-name">Denis Rodman</a>
+                              <span class="chat-sidebar__message-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, laboriosam!</span>
+                            </div>
+                            <div class="chat-sidebar__message-time">
+                                <span>Yesterday</span>
+                            </div>
+                            <div class="chat-sidebar__message-menu dropdown">
+                                <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                                </button>
+                                <ul class="dropdown-menu">
+                                  <li><a href="#">Delete</a></li>
+                                  <li><a href="#">change to Open</a></li>
+                                  <li><a href="#">change to Unreaded</a></li>
+                                  <li><a href="#">change to Closed</a></li>
+                                </ul>
+                            </div>
+
+                        </div>
+
+                        <div class="chat-sidebar__message">
+                            <a href="#" class="chat-section__author-icon">
+                                <img class="chat-sidebar__photo" src="img/madebyoliver.jpg" alt="David Fisher">
+                            </a>
+                            <span class="chat-sidebar__messenger viber"></span>
+                            <div class="chat-sidebar__author-message">
+                              <a href="#" class="chat-sidebar__author-name">Denis Rodman</a>
+                              <span class="chat-sidebar__message-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, laboriosam!</span>
+                            </div>
+                            <div class="chat-sidebar__message-time">
+                                <span>5.33</span>
+                            </div>
+                            <div class="chat-sidebar__message-menu dropdown">
+                                <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                                </button>
+                                <ul class="dropdown-menu">
+                                  <li><a href="#">Delete</a></li>
+                                  <li><a href="#">change to Open</a></li>
+                                  <li><a href="#">change to Unreaded</a></li>
+                                  <li><a href="#">change to Closed</a></li>
+                                </ul>
+                            </div>
+
+                        </div>
+
+                        <div class="chat-sidebar__message unreaded">
+                            <a href="#" class="chat-section__author-icon">
+                                <img class="chat-sidebar__photo" src="img/madebyoliver.jpg" alt="David Fisher">
+                            </a>
+                            <span class="chat-sidebar__messenger viber"></span>
+                            <div class="chat-sidebar__author-message">
+                              <a href="#" class="chat-sidebar__author-name">Denis Rodman</a>
+                              <span class="chat-sidebar__message-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, laboriosam!</span>
+                            </div>
+                            <div class="chat-sidebar__message-time">
+                                <span>5.33</span>
+                            </div>
+                            <div class="chat-sidebar__message-menu dropdown">
+                                <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                                </button>
+                                <ul class="dropdown-menu">
+                                  <li><a href="#">Delete</a></li>
+                                  <li><a href="#">change to Open</a></li>
+                                  <li><a href="#">change to Unreaded</a></li>
+                                  <li><a href="#">change to Closed</a></li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="chat-section__content">
+
+                        <div class="chat-section__messages-container">
+                          <div>
+
+                              <div class="chat-section__message right-side-message">
+                                <div class="chat-section__message-container">
+                                  <div class="chat-section__author-name">
+                                    <a href="#">Author name</a>
+                                    <div class="chat-section__author-info">
+                                      <a href="#">Social account</a>
+                                      <a href="#">Last invoices</a>
+                                    </div>
+                                  </div>
+                                  <div class="chat-section__time-sented">12:15</div>
+                                  <div class="chat-section__message-text">
+                                    <div><span>Hi! 2 message adipisicing elit. I laudantium repellendus vitae.</span>
+                                      <div class="chat-section__message__settings">
+                                        <div class="">
+                                          <div class="chat-section__message__delete">Delete</div>
+                                          <div class="chat-section__message__copy">Copy text</div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <a href="#" class="chat-section__autor-image"><img src="img/madebyoliver.jpg" alt="person" /></a>
+                              </div>
+
+                              <div class="chat-section__message invoice-message">
+                                <a href="#" class="chat-section__autor-image"><img src="img/madebyoliver.jpg" alt="person" /></a>
+                                <div class="chat-section__message-container">
+                                  <div class="chat-section__author-name">
+                                    <a href="#">Author name</a>
+                                    <div class="chat-section__author-info">
+                                      <a href="#">Social account</a>
+                                      <a href="#">Last invoices</a>
+                                    </div>
+                                  </div>
+                                  <div class="chat-section__time-sented">12:15</div>
+                                  <div class="chat-section__message-text">
+                                    <div>
+                                      <div class="chat-section__message-invoice clearfix">
+                                        <img src="img/alt-image.svg" alt="tv.jpg">
+                                        <p class="chat-section__invoice-title">Samsung Galaxy S8</p>
+                                        <p class="chat-section__invoice-description">Смартфон Samsung Galaxy S8 Dual SIM 64GB (черный бриллиант) [G950FD]</p>
+                                        <div class="chat-section__message-price"><span>$</span>1200</div>
+                                      </div>
+                                      <div class="chat-section__message__settings">
+                                        <div class="">
+                                          <div class="chat-section__message__delete">Delete</div>
+                                          <div class="chat-section__message__copy">Copy text</div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="chat-section__message invoice-message">
+                                <a href="#" class="chat-section__autor-image"><img src="img/madebyoliver.jpg" alt="person" /></a>
+                                <div class="chat-section__message-container">
+                                  <div class="chat-section__author-name">
+                                    <a href="#">Author name</a>
+                                    <div class="chat-section__author-info">
+                                      <a href="#">Social account</a>
+                                      <a href="#">Last invoices</a>
+                                    </div>
+                                  </div>
+                                  <div class="chat-section__time-sented">12:15</div>
+                                  <div class="chat-section__message-text">
+                                    <div>
+                                      <div class="chat-section__message-invoice clearfix">
+                                        <img src="img/alt-image.svg" alt="tv.jpg">
+                                        <p class="chat-section__invoice-title">Samsung Galaxy S8</p>
+                                        <p class="chat-section__invoice-description">Смартфон Samsung Galaxy S8 Dual SIM 64GB (черный бриллиант) [G950FD]</p>
+                                        <div class="chat-section__message-price"><span>$</span>1200<div class="chat-section__message-price-discount">Discount: <span>10%</span></div></div>
+                                      </div>
+                                      <div class="chat-section__message__settings">
+                                        <div class="">
+                                          <div class="chat-section__message__delete">Delete</div>
+                                          <div class="chat-section__message__copy">Copy text</div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="chat-section__message invoice-message">
+                                <a href="#" class="chat-section__autor-image"><img src="img/madebyoliver.jpg" alt="person" /></a>
+                                <div class="chat-section__message-container">
+                                  <div class="chat-section__author-name">
+                                    <a href="#">Author name</a>
+                                    <div class="chat-section__author-info">
+                                      <a href="#">Social account</a>
+                                      <a href="#">Last invoices</a>
+                                    </div>
+                                  </div>
+                                  <div class="chat-section__time-sented">12:15</div>
+                                  <div class="chat-section__message-text">
+                                    <div>
+                                      <div class="chat-section__message-invoice clearfix">
+                                        <p class="chat-section__invoice-title">Simple payment</p>
+                                        <p class="chat-section__invoice-description"></p>
+                                        <p class="chat-section__message-price"><span>$</span>1</p>
+                                      </div>
+                                      <div class="chat-section__message__settings">
+                                        <div class="">
+                                          <div class="chat-section__message__delete">Delete</div>
+                                          <div class="chat-section__message__copy">Copy text</div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="data-devider"><p>19 may 23:19</p></div>
+
+                              <div class="chat-section__message right-side-message">
+                                <div class="chat-section__message-container">
+                                  <div class="chat-section__author-name">
+                                    <a href="#">Author name</a>
+                                    <div class="chat-section__author-info">
+                                      <a href="#">Social account</a>
+                                      <a href="#">Last invoices</a>
+                                    </div>
+                                  </div>
+                                  <div class="chat-section__time-sented">12:15</div>
+                                  <div class="chat-section__message-text">
+                                    <div><span>Hi! 3 message adipisicing elit.pellendus vitae.</span><div class="chat-section__message__settings">
+                                      <div class="">
+                                        <div class="chat-section__message__delete">Delete</div>
+                                        <div class="chat-section__message__copy">Copy text</div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  </div>
+                                </div>
+                                <a href="#" class="chat-section__autor-image no-person-image"><img src="img/madebyoliver.jpg" alt="person" /></a>
+                              </div>
+
+                              <div class="chat-section__message">
+                                <a href="#" class="chat-section__autor-image"><img src="img/madebyoliver.jpg" alt="person" /></a>
+                                <div class="chat-section__message-container">
+                                  <div class="chat-section__author-name">
+                                    <a href="#">Author name</a>
+                                    <div class="chat-section__author-info">
+                                      <a href="#">Social account</a>
+                                      <a href="#">Last invoices</a>
+                                    </div>
+                                  </div>
+                                  <div class="chat-section__time-sented">12:15</div>
+                                  <div class="chat-section__message-text">
+                                    <div><span>Hi! 4 message adipisicing elit. Sint  sdfdfsd fugit harum praeum repellendus vitae.</span>
+                                      <div class="chat-section__message__settings">
+                                        <div class="">
+                                          <div class="chat-section__message__delete">Delete</div>
+                                          <div class="chat-section__message__copy">Copy text</div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
+
+                              <div class="chat-section__message">
+                                <a href="#" class="chat-section__autor-image"><img src="img/madebyoliver.jpg" alt="person" /></a>
+                                <div class="chat-section__message-container">
+                                  <div class="chat-section__author-name">
+                                    <a href="#">Author name</a>
+                                    <div class="chat-section__author-info">
+                                      <a href="#">Social account</a>
+                                      <a href="#">Last invoices</a>
+                                    </div>
+                                  </div>
+                                  <div class="chat-section__time-sented">12:15</div>
+                                  <div class="chat-section__message-text">
+                                    <div>
+                                      <span>Hi! 5 message adipisicing elit. Sint um odio laudantium repellendus vitae.</span>
+                                      <div class="chat-section__message__settings">
+                                        <div class="">
+                                          <div class="chat-section__message__delete">Delete</div>
+                                          <div class="chat-section__message__copy">Copy text</div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="chat-section__message">
+                                <a href="#" class="chat-section__autor-image"><img src="img/madebyoliver.jpg" alt="person" /></a>
+                                <div class="chat-section__message-container">
+                                  <div class="chat-section__author-name">
+                                    <a href="#">Author name</a>
+                                    <div class="chat-section__author-info">
+                                      <a href="#">Social account</a>
+                                      <a href="#">Last invoices</a>
+                                    </div>
+                                  </div>
+                                  <div class="chat-section__time-sented">12:15</div>
+                                  <div class="chat-section__message-text">
+                                    <div>
+                                      <img src="img/maxresdefault.jpg" alt="image">
+                                      <div class="chat-section__message__settings">
+                                        <div class="">
+                                          <div class="chat-section__message__delete">Delete</div>
+                                          <div class="chat-section__message__copy">Copy text</div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="chat-section__message right-side-message">
+                                <div class="chat-section__message-container">
+                                  <div class="chat-section__author-name">
+                                    <a href="#">Author name</a>
+                                    <div class="chat-section__author-info">
+                                      <a href="#">Social account</a>
+                                      <a href="#">Last invoices</a>
+                                    </div>
+                                  </div>
+                                  <div class="chat-section__time-sented">12:15</div>
+                                  <div class="chat-section__message-text">
+                                    <div>
+                                      <span>Hi! 6 message adipisicing elit. m odio laudantium repellendus vitae.</span>
+                                      <div class="chat-section__message__settings">
+                                        <div class="">
+                                          <div class="chat-section__message__delete">Delete</div>
+                                          <div class="chat-section__message__copy">Copy text</div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="chat-section__autor-image"><img src="img/madebyoliver.jpg" alt="person" /></div>
+                              </div>
+
+                              <div class="chat-section__message">
+                                <div class="chat-section__autor-image"><img src="img/madebyoliver.jpg" alt="person" /></div>
+                                <div class="chat-section__message-container">
+                                  <div class="chat-section__author-name">
+                                    <a href="#">Author name</a>
+                                    <div class="chat-section__author-info">
+                                      <a href="#">Social account</a>
+                                      <a href="#">Last invoices</a>
+                                    </div>
+                                  </div>
+                                  <div class="chat-section__time-sented">12:15</div>
+                                  <div class="chat-section__message-text"><div><span>Hi! 7 message adipisicing elit. Sint fugit harum praesentium veritatis earum, vitae.</span></div></div>
+                                </div>
+                              </div>
+
+                              <div class="chat-section__message unreaded">
+                                <a href="#" class="chat-section__autor-image"><img src="img/madebyoliver.jpg" alt="person" /></a>
+                                <div class="chat-section__message-container">
+                                  <div class="chat-section__author-name">
+                                    <a href="#">Author name</a>
+                                    <div class="chat-section__author-info">
+                                      <a href="#">Social account</a>
+                                      <a href="#">Last invoices</a>
+                                    </div>
+                                  </div>
+                                  <div class="chat-section__time-sented">12:15</div>
+                                  <div class="chat-section__message-text">
+                                    <div><span>Hi! Lorem ipsum dolor sit amet, consectetur adipisicing elit. laudantium repellendus vitae.</span>
+                                      <a href="#">https://www.messenger.com/t/olgamedvedeva</a>
+                                      <div class="chat-section__message__settings">
+                                        <div class="">
+                                          <div class="chat-section__message__delete">Delete</div>
+                                          <div class="chat-section__message__copy">Copy text</div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                          </div>
+                        </div>
+
+                        <div class="chat-section__content-input-block">
+                            <form action="" class="chat-section__content-message-form">
+                                <div class="chat-section__content-message-panel">
+
+                                    <div class="chat-section__content-emoji">
+                                      <div class="dropup">
+                                        <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                          <li><a href="#"><img src="img/smile.svg" alt="smile"></a></li>
+                                          <li><a href="#"><img src="img/smile.svg" alt="smile"></a></li>
+                                          <li><a href="#"><img src="img/smile.svg" alt="smile"></a></li>
+                                          <li><a href="#"><img src="img/smile.svg" alt="smile"></a></li>
+                                          <li><a href="#"><img src="img/smile.svg" alt="smile"></a></li>
+                                          <li><a href="#"><img src="img/smile.svg" alt="smile"></a></li>
+                                          <li><a href="#"><img src="img/smile.svg" alt="smile"></a></li>
+                                          <li><a href="#"><img src="img/smile.svg" alt="smile"></a></li>
+                                          <li><a href="#"><img src="img/smile.svg" alt="smile"></a></li>
+                                          <li><a href="#"><img src="img/smile.svg" alt="smile"></a></li>
+                                          <li><a href="#"><img src="img/smile.svg" alt="smile"></a></li>
+                                          <li><a href="#"><img src="img/smile.svg" alt="smile"></a></li>
+                                          <li><a href="#"><img src="img/smile.svg" alt="smile"></a></li>
+                                          <li><a href="#"><img src="img/smile.svg" alt="smile"></a></li>
+                                          <li><a href="#"><img src="img/smile.svg" alt="smile"></a></li>
+                                          <li><a href="#"><img src="img/smile.svg" alt="smile"></a></li>
+                                          <li><a href="#"><img src="img/smile.svg" alt="smile"></a></li>
+                                          <li><a href="#"><img src="img/smile.svg" alt="smile"></a></li>
+                                          <li><a href="#"><img src="img/smile.svg" alt="smile"></a></li>
+                                          <li><a href="#"><img src="img/smile.svg" alt="smile"></a></li>
+                                          <li><a href="#"><img src="img/smile.svg" alt="smile"></a></li>
+                                          <li><a href="#"><img src="img/smile.svg" alt="smile"></a></li>
+                                          <li><a href="#"><img src="img/smile.svg" alt="smile"></a></li>
+                                        </ul>
+                                      </div>
+                                    </div>
+                                    <div class="chat-section__content-itemAndCost">
+                                      <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"></button>
+                                      <div ></div>
+                                    </div>
+
+                                </div>
+                                <textarea class="enterText-input" rows="1" placeholder="Type text here..."></textarea>
+                                <button class="chat-section__content-message-sent"></button>
+                            </form>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div id="my-messages" class="tab-pane fade">
+                  <div class="chat-sidebar">
+                    <div class="chat-section__search">
+                      <form action="" method="get" class="chat-section__search-form">
+                        <input type="text" placeholder="Search"/>
+                        <button></button>
+                      </form>
+                    </div>
+
+                    <div class="chat-sidebar__message">
+                        <a href="#" class="chat-section__author-icon">
+                            <img class="chat-sidebar__photo" src="img/madebyoliver.jpg" alt="David Fisher">
+                        </a>
+                        <span class="chat-sidebar__messenger viber"></span>
+                        <div class="chat-sidebar__author-message">
+                          <a href="#" class="chat-sidebar__author-name">Denis Rodman</a>
+                          <span class="chat-sidebar__message-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, laboriosam!</span>
+                        </div>
+                        <div class="chat-sidebar__message-time">
+                            <span>15.33</span>
+                        </div>
+                        <div class="chat-sidebar__message-menu dropdown">
+                            <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                            </button>
+                            <ul class="dropdown-menu">
+                              <li><a href="#">Delete</a></li>
+                              <li><a href="#">change to Open</a></li>
+                              <li><a href="#">change to Unreaded</a></li>
+                              <li><a href="#">change to Closed</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="chat-sidebar__message">
+                        <a href="#" class="chat-section__author-icon">
+                            <img class="chat-sidebar__photo" src="img/madebyoliver.jpg" alt="David Fisher">
+                        </a>
+                        <span class="chat-sidebar__messenger viber"></span>
+                        <div class="chat-sidebar__author-message">
+                          <a href="#" class="chat-sidebar__author-name">Denis Rodman</a>
+                          <span class="chat-sidebar__message-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, laboriosam!</span>
+                        </div>
+                        <div class="chat-sidebar__message-time">
+                            <span>15.33</span>
+                        </div>
+                        <div class="chat-sidebar__message-menu dropdown">
+                            <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                            </button>
+                            <ul class="dropdown-menu">
+                              <li><a href="#">Delete</a></li>
+                              <li><a href="#">change to Open</a></li>
+                              <li><a href="#">change to Unreaded</a></li>
+                              <li><a href="#">change to Closed</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="chat-sidebar__message">
+                        <a href="#" class="chat-section__author-icon">
+                            <img class="chat-sidebar__photo" src="img/madebyoliver.jpg" alt="David Fisher">
+                        </a>
+                        <span class="chat-sidebar__messenger telegram"></span>
+                        <div class="chat-sidebar__author-message">
+                          <a href="#" class="chat-sidebar__author-name">Denis Rodman</a>
+                          <span class="chat-sidebar__message-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, laboriosam!</span>
+                        </div>
+                        <div class="chat-sidebar__message-time">
+                            <span>5.33</span><span>PM</span>
+                        </div>
+                        <div class="chat-sidebar__message-menu dropdown">
+                            <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                            </button>
+                            <ul class="dropdown-menu">
+                              <li><a href="#">Delete</a></li>
+                              <li><a href="#">change to Open</a></li>
+                              <li><a href="#">change to Unreaded</a></li>
+                              <li><a href="#">change to Closed</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="chat-sidebar__message">
+                        <a href="#" class="chat-section__author-icon">
+                            <img class="chat-sidebar__photo" src="img/madebyoliver.jpg" alt="David Fisher">
+                        </a>
+                        <span class="chat-sidebar__messenger viber"></span>
+                        <div class="chat-sidebar__author-message">
+                          <a href="#" class="chat-sidebar__author-name">Denis Rodman</a>
+                          <span class="chat-sidebar__message-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, laboriosam!</span>
+                        </div>
+                        <div class="chat-sidebar__message-time">
+                            <span>5.33</span><span>PM</span>
+                        </div>
+                        <div class="chat-sidebar__message-menu dropdown">
+                            <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                            </button>
+                            <ul class="dropdown-menu">
+                              <li><a href="#">Delete</a></li>
+                              <li><a href="#">change to Open</a></li>
+                              <li><a href="#">change to Unreaded</a></li>
+                              <li><a href="#">change to Closed</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="chat-sidebar__message">
+                            <a href="#" class="chat-section__author-icon">
+                                <img class="chat-sidebar__photo" src="img/madebyoliver.jpg" alt="David Fisher">
+                            </a>
+                            <span class="chat-sidebar__messenger messenger"></span>
+                            <div class="chat-sidebar__author-message">
+                              <a href="#" class="chat-sidebar__author-name">Denis Rodman</a>
+                              <span class="chat-sidebar__message-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, laboriosam!</span>
+                            </div>
+                            <div class="chat-sidebar__message-time">
+                                <span>5.33</span><span>PM</span>
+                            </div>
+                            <div class="chat-sidebar__message-menu dropdown">
+                                <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                                </button>
+                                <ul class="dropdown-menu">
+                                  <li><a href="#">Delete</a></li>
+                                  <li><a href="#">change to Open</a></li>
+                                  <li><a href="#">change to Unreaded</a></li>
+                                  <li><a href="#">change to Closed</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                  </div>
+
+                  <div class="chat-section__content">
+
+                        <div class="chat-section__messages-container">
+                              <div>
+
+                                  <div class="chat-section__message right-side-message">
+                                    <div class="chat-section__message-container">
+                                      <div class="chat-section__author-name">
+                                        <a href="#">Author name</a>
+                                        <div class="chat-section__author-info">
+                                          <a href="#">Social account</a>
+                                          <a href="#">Last invoices</a>
+                                        </div>
+                                      </div>
+                                      <div class="chat-section__time-sented">12:15</div>
+                                      <div class="chat-section__message-text"><div><span>Hi! 2 message adipisicing elit. I laudantium repellendus vitae.</span></div></div>
+                                    </div>
+                                    <a href="#" class="chat-section__autor-image"><img src="img/madebyoliver.jpg" alt="person" /></a>
+                                  </div>
+
+                                  <div class="chat-section__message right-side-message">
+                                    <div class="chat-section__message-container">
+                                      <div class="chat-section__author-name">
+                                        <a href="#">Author name</a>
+                                        <div class="chat-section__author-info">
+                                          <a href="#">Social account</a>
+                                          <a href="#">Last invoices</a>
+                                        </div>
+                                      </div>
+                                      <div class="chat-section__time-sented">12:15</div>
+                                      <div class="chat-section__message-text"><p>Hi! 3 message adipisicing elit.pellendus vitae.</p></div>
+                                    </div>
+                                    <a href="#" class="chat-section__autor-image no-person-image"><img src="img/madebyoliver.jpg" alt="person" /></a>
+                                  </div>
+
+                                  <div class="chat-section__message">
+                                    <a href="#" class="chat-section__autor-image"><img src="img/madebyoliver.jpg" alt="person" /></a>
+                                    <div class="chat-section__message-container">
+                                      <div class="chat-section__author-name">
+                                        <a href="#">Author name</a>
+                                        <div class="chat-section__author-info">
+                                          <a href="#">Social account</a>
+                                          <a href="#">Last invoices</a>
+                                        </div>
+                                      </div>
+                                      <div class="chat-section__time-sented">12:15</div>
+                                      <div class="chat-section__message-text"><p>Hi! 4 message adipisicing elit. Sint  sdfdfsd fugit harum praeum repellendus vitae.</p></div>
+                                    </div>
+
+                                  </div>
+
+                                  <div class="chat-section__message">
+                                    <a href="#" class="chat-section__autor-image"><img src="img/madebyoliver.jpg" alt="person" /></a>
+                                    <div class="chat-section__message-container">
+                                      <div class="chat-section__author-name">
+                                        <a href="#">Author name</a>
+                                        <div class="chat-section__author-info">
+                                          <a href="#">Social account</a>
+                                          <a href="#">Last invoices</a>
+                                        </div>
+                                      </div>
+                                      <div class="chat-section__time-sented">12:15</div>
+                                      <div class="chat-section__message-text"><p>Hi! 5 message adipisicing elit. Sint um odio laudantium repellendus vitae.</p></div>
+                                    </div>
+                                  </div>
+
+                                  <div class="chat-section__message right-side-message">
+                                    <div class="chat-section__message-container">
+                                      <div class="chat-section__author-name">
+                                        <a href="#">Author name</a>
+                                        <div class="chat-section__author-info">
+                                          <a href="#">Social account</a>
+                                          <a href="#">Last invoices</a>
+                                        </div>
+                                      </div>
+                                      <div class="chat-section__time-sented">12:15</div>
+                                      <div class="chat-section__message-text"><p>Hi! 6 message adipisicing elit. m odio laudantium repellendus vitae.</p></div>
+                                    </div>
+                                    <div class="chat-section__autor-image"><img src="img/madebyoliver.jpg" alt="person" /></div>
+                                  </div>
+
+                                  <div class="chat-section__message">
+                                    <div class="chat-section__autor-image"><img src="img/madebyoliver.jpg" alt="person" /></div>
+                                    <div class="chat-section__message-container">
+                                      <div class="chat-section__author-name">
+                                        <a href="#">Author name</a>
+                                        <div class="chat-section__author-info">
+                                          <a href="#">Social account</a>
+                                          <a href="#">Last invoices</a>
+                                        </div>
+                                      </div>
+                                      <div class="chat-section__time-sented">12:15</div>
+                                      <div class="chat-section__message-text"><p>Hi! 7 message adipisicing elit. Sint fugit harum praesentium veritatis earum, vitae.</p></div>
+                                    </div>
+                                  </div>
+
+                                  <div class="chat-section__message unreaded">
+                                    <a href="#" class="chat-section__autor-image"><img src="img/madebyoliver.jpg" alt="person" /></a>
+                                    <div class="chat-section__message-container">
+                                      <div class="chat-section__author-name">
+                                        <a href="#">Author name</a>
+                                        <div class="chat-section__author-info">
+                                          <a href="#">Social account</a>
+                                          <a href="#">Last invoices</a>
+                                        </div>
+                                      </div>
+                                      <div class="chat-section__time-sented">12:15</div>
+                                      <div class="chat-section__message-text"><div><span>Hi! Lorem ipsum dolor sit amet, consectetur adipisicing elit. laudantium repellendus vitae.</span></div></div>
+                                    </div>
+                                  </div>
+
+                              </div>
+                            </div>
+
+                            <div class="chat-section__content-input-block">
+                                <form action="" class="chat-section__content-message-form">
+                                    <div class="chat-section__content-message-panel">
+
+                                        <div class="chat-section__content-emoji">
+                                          <div class="dropup">
+                                            <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                              <li><a href="#"><img src="/img/smile.svg" alt="smile"></a></li>
+                                              <li><a href="#"><img src="/img/smile.svg" alt="smile"></a></li>
+                                              <li><a href="#"><img src="/img/smile.svg" alt="smile"></a></li>
+                                              <li><a href="#"><img src="/img/smile.svg" alt="smile"></a></li>
+                                              <li><a href="#"><img src="/img/smile.svg" alt="smile"></a></li>
+                                              <li><a href="#"><img src="/img/smile.svg" alt="smile"></a></li>
+                                              <li><a href="#"><img src="/img/smile.svg" alt="smile"></a></li>
+                                              <li><a href="#"><img src="/img/smile.svg" alt="smile"></a></li>
+                                              <li><a href="#"><img src="/img/smile.svg" alt="smile"></a></li>
+                                              <li><a href="#"><img src="/img/smile.svg" alt="smile"></a></li>
+                                              <li><a href="#"><img src="/img/smile.svg" alt="smile"></a></li>
+                                              <li><a href="#"><img src="/img/smile.svg" alt="smile"></a></li>
+                                              <li><a href="#"><img src="/img/smile.svg" alt="smile"></a></li>
+                                              <li><a href="#"><img src="/img/smile.svg" alt="smile"></a></li>
+                                              <li><a href="#"><img src="/img/smile.svg" alt="smile"></a></li>
+                                              <li><a href="#"><img src="/img/smile.svg" alt="smile"></a></li>
+                                              <li><a href="#"><img src="/img/smile.svg" alt="smile"></a></li>
+                                              <li><a href="#"><img src="/img/smile.svg" alt="smile"></a></li>
+                                              <li><a href="#"><img src="/img/smile.svg" alt="smile"></a></li>
+                                              <li><a href="#"><img src="/img/smile.svg" alt="smile"></a></li>
+                                              <li><a href="#"><img src="/img/smile.svg" alt="smile"></a></li>
+                                              <li><a href="#"><img src="/img/smile.svg" alt="smile"></a></li>
+                                              <li><a href="#"><img src="/img/smile.svg" alt="smile"></a></li>
+                                            </ul>
+                                          </div>
+                                        </div>
+                                        <div class="chat-section__content-itemAndCost">
+                                          <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"></button>
+                                          <div ></div>
+                                        </div>
+
+                                    </div>
+                                    <!-- <input type="text" class="enterText-input" placeholder="Type a message..."> -->
+                                    <textarea class="enterText-input" rows="1" placeholder="Type text here..."></textarea>
+                                    <button class="chat-section__content-message-sent"></button>
+                                </form>
+                            </div>
+                  </div>
+                </div>
+
+                <div id="open-mesages" class="tab-pane fade">
+                  <h3 class="no-messages-title">You have no messages</h3>
+                  <!-- <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p> -->
+                  <!-- <select class="js-data-example-ajax"> -->
+                </div>
+                <div id="pending-messages" class="tab-pane fade">
+                  <h3 class="no-messages-title">Pending-messages</h3>
+                  <!-- <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p> -->
+                  
+                </div>
+                <div id="unreaded-messages" class="tab-pane fade">
+                  <h3 class="no-messages-title">Unreaded-messages</h3>
+                  <!-- <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p> -->
+                </div>
+                <div id="closed-messages" class="tab-pane fade">
+                  <h3 class="no-messages-title">Closed-messages</h3>
+                  <!-- <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p> -->
+                </div>
+            </div>
+        </div>
+    </section>
+  </div>
+</div>
+
+<footer class="main-footer">
+   <div class="container">
+     <div class="row">
+       <div class="col-md-6 col-sm-6 col-xs-12 site-links-container">
+         <ul class="site-links"><li><span class="glyphicon glyphicon-home"></span>
+           <a href="http://tap2pay.me/">Home</a></li><li><span class="glyphicon glyphicon-user"></span> <a href="#Contact-us">Contact us</a></li>
+           <li>             <span class="glyphicon glyphicon-book"></span> <a href="https://secure.tap2pay.me/docs/widget">Documentation</a></li></ul></div><div class="col-md-6 col-sm-6 col-xs-12 messenger-links-container"><ul class="messenger-links"><li><a class="btn btn-facebook-login" target="_blank" href="https://www.facebook.com/tap2pay.me/"><i class="fa fa-facebook"></i> </a> </li><li><a class="btn btn-skype" target="_blank" href="#"><i class="fa fa-skype"></i> </a> </li><li><a class="btn btn-telegram" target="_blank" href="https://telegram.me/Tap2PayBot"><i class="fa fa-paper-plane"></i> </a> </li></ul></div></div></div></footer><script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:290917,hjsv:5};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-96991741-1', 'auto');
+  ga('send', 'pageview');
+</script>
+<div data-turbolinks-permanent="" id="drift-widget-container">
+  <iframe id="drift-widget" src="Tap2pay_files/index-prod.html" style="border: medium none; display: block; position: fixed; top: auto; left: auto; bottom: 24px; right: 24px; width: 76px ! important; height: 76px ! important; visibility: visible; z-index: 2147483647; max-height: 100vh; max-width: 100vw; transition: none 0s ease 0s ; background: transparent none repeat scroll 0% 0%; opacity: 1;" frameborder="0"></iframe>
+</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade modalAddGoods" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Send Invoice</h4>
+      </div>
+      <div class="modal-body">
+        <h4>Select Product</h4>
+        <select class="js-data-example-ajax select-special-style" placeholder="choose item you wanna sent">
+          <option value="3620194" selected="selected">Выберите товар</option>
+        </select>
+        <h4>Amount <span>*</span></h4>
+        <input class="modalAddGoods-price" type="number" placeholder="Input price of good (USD)">
+      </div>
+      <div class="modal-footer">
+        <a href="create-new.html" class="btn modalAddGoods__create-button">Create product</a>
+        <button type="button" class="btn add-info-button" >Sent</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="modalFilter" class="modal fade modalFilter" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Filter</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+        <div class="select-style modalAddGoods-select">
+          <select>
+            <option value="volvo">Iphone 7</option>
+            <option value="saab">Map</option>
+            <option value="mercedes">Car</option>
+            <option value="audi">Dress</option>
+            <option value="audi">Tv set</option>
+            <option value="audi">Banana soap</option>
+          </select>
+        </div>
+
+        <input class="modalAddGoods-price" type="number" placeholder="Input price of good (USD)">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn add-info-button" >Add</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="js/libs.min.js"></script>
+<script src="js/common.js"></script>
+
+</body>
+</html>
