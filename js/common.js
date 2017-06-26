@@ -9,6 +9,17 @@ $(function() {
     $( this ).addClass("active");
   });
 
+  $(".enterText-input").keyup(function() {
+    var wtf = $('.chat-section__messages-container');
+    var height = wtf[0].scrollHeight;
+    wtf.scrollTop(height);
+  });
+
+  var messageLast = $('.chat-section__messages');
+  var height = messageLast[0].scrollHeight;
+  messageLast.scrollTop(height);
+
+
   // $(".chat-sidebar__message").hover(function() {
   //   // $(".chat-sidebar__message").add("active");
   //   $( this ).find(".chat-sidebar__message-menu").addClass("open");
@@ -20,6 +31,16 @@ $(function() {
   // $(".chat-section__content").hover(function() {
   //   $(".chat-sidebar__message-menu").removeClass("open");
   // });
+
+    // $(".enterText-input").keyup(function() {
+    //   var h1 = $(".chat-section__messages-container").height();
+    //   var h2 = $(".enterText-input").height();
+    //   // $(".chat-section__messages-container").height()
+    //   console.log(h1, h2);
+    //   var h3 = h1 - h2;
+    //   $(".chat-section__messages-container").css('height', h3 + 'px');
+    //   console.log(h3);
+    // });
 
 
 
