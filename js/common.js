@@ -46,13 +46,13 @@ $(function() {
 
 
   var data = [
-      { id: 0, text: '<div class="modalAddGoods-option"><img src="/img/1.jpg" alt="good-img"><p>Ipad pro 2017</p><span>$1</span></div>' },
-      { id: 1, text: '<div class="modalAddGoods-option"><img src="/img/2.jpg" alt="good-img"><p>Imac pro 2011</p><span>$1200</span></div>' },
-      { id: 2, text: '<div class="modalAddGoods-option"><img src="/img/3.jpg" alt="good-img"><p>Sega mega drive 2</p><span>$1200</span></div>' },
-      { id: 3, text: '<div class="modalAddGoods-option"><img src="/img/1.jpg" alt="good-img"><p>The lord fo the rings. Second edition</p><span>$12000</span></div>' },
-      { id: 4, text: '<div class="modalAddGoods-option"><img src="/img/1.jpg" alt="good-img"><p>Ipad pro 2asdasds017</p><span>$1</span></div>' },
-      { id: 5, text: '<div class="modalAddGoods-option"><img src="/img/2.jpg" alt="good-img"><p>Imac pro 2011asdasdasd</p><span>$1200</span></div>' },
-      { id: 6, text: '<div class="modalAddGoods-option"><img src="/img/3.jpg" alt="good-img"><p>Sega mega drivsasasdsde 2</p><span>$1200</span></div>' },
+      { id: 0, text: '<div class="modalAddGoods-option"><img src="img/1.jpg" alt="good-img"><p>Ipad pro 2017</p><span>$1</span></div>' },
+      { id: 1, text: '<div class="modalAddGoods-option"><img src="img/2.jpg" alt="good-img"><p>Imac pro 2011</p><span>$1200</span></div>' },
+      { id: 2, text: '<div class="modalAddGoods-option"><img src="img/3.jpg" alt="good-img"><p>Sega mega drive 2</p><span>$1200</span></div>' },
+      { id: 3, text: '<div class="modalAddGoods-option"><img src="img/1.jpg" alt="good-img"><p>The lord fo the rings. Second edition</p><span>$12000</span></div>' },
+      { id: 4, text: '<div class="modalAddGoods-option"><img src="img/1.jpg" alt="good-img"><p>Ipad pro 2asdasds017</p><span>$1</span></div>' },
+      { id: 5, text: '<div class="modalAddGoods-option"><img src="img/2.jpg" alt="good-img"><p>Imac pro 2011asdasdasd</p><span>$1200</span></div>' },
+      { id: 6, text: '<div class="modalAddGoods-option"><img src="img/3.jpg" alt="good-img"><p>Sega mega drivsasasdsde 2</p><span>$1200</span></div>' },
   ];
 
   $("select").select2({
