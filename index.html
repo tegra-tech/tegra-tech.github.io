@@ -5,6 +5,7 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="css/libs.min.css">
 <link rel="stylesheet" href="css/main.css">
+<!-- <link rel="stylesheet" href="css/style.css"> -->
 <!-- <script src="https://twemoji.maxcdn.com/2/twemoji.min.js?2.3.0"></script> -->
 <link href="https://rawgit.com/ellekasai/twemoji-awesome/gh-pages/twemoji-awesome.css" rel="stylesheet">
 <script async="" src="Tap2pay_files/analytics.js"></script>
@@ -159,6 +160,19 @@ function TokenSigning() {
 
             <div class="tab-content">
                 <div id="All-messages" class="tab-pane fade in active">
+                  <div class="chat-panel">
+                    <div class="chat-panel__sidebar"></div>
+                    <div class="chat-panel__mobile-messages"></div>
+                  </div>
+                  <ul class="chat-mobile-messages">
+                    <li class="active"><a data-toggle="tab" href="#All-messages">All</a></li>
+                    <li><a data-toggle="tab" href="#my-messages">My messages</a><div class="message-counter">6</div></li>
+                    <li><a data-toggle="tab" href="#open-mesages">Open</a><div class="message-counter">2</div></li>
+                    <li><a data-toggle="tab" href="#pending-messages">Pending</a><div class="message-counter">6</div></li>
+                    <li><a data-toggle="tab" href="#unreaded-messages">Unreaded</a></li>
+                    <li><a data-toggle="tab" href="#closed-messages">Closed</a></li>
+                    <li class="disabled"><a type="button">Filter</a></li>
+                  </ul>
                     <div class="chat-sidebar">
                         <div class="chat-section__search">
                             <form action="" method="get" class="chat-section__search-form">
@@ -391,7 +405,7 @@ function TokenSigning() {
 
                         </div>
                     </div>
-                    <div class="chat-section__content">
+                    <div class="chat-section__content" >
 
                         <div class="chat-section__messages-container">
                           <div class="chat-section__messages">
@@ -676,7 +690,6 @@ function TokenSigning() {
 
 
                           </div>
-
 
                           <div class="chat-section__content-input-block">
                               <form action="" class="chat-section__content-message-form">
@@ -1048,7 +1061,6 @@ function TokenSigning() {
                 <div id="pending-messages" class="tab-pane fade">
                   <h3 class="no-messages-title">Pending-messages</h3>
                   <!-- <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p> -->
-
                 </div>
                 <div id="unreaded-messages" class="tab-pane fade">
                   <h3 class="no-messages-title">Unreaded-messages</h3>
@@ -1063,6 +1075,7 @@ function TokenSigning() {
     </section>
   </div>
 </div>
+
 
 <footer class="main-footer">
    <div class="container">

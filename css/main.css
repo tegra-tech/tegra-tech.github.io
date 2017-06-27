@@ -2246,10 +2246,17 @@ section {
   display: -ms-flex;
   display: -o-flex;
   display: flex;
+  letter-spacing: -.36em;
   /*    flex-direction: column;*/
   /*    justify-content: flex-start;*/
   align-items: stretch;
   /*    flex-wrap: nowrap;*/ }
+
+.chat-section .tab-content > div > div {
+  letter-spacing: normal; }
+
+.chat-section .tab-content > div > h1, h2, h3, h4, h5, p, div, a, span {
+  letter-spacing: normal; }
 
 /* line 25, ../scss/screen.scss */
 .chat-section {
@@ -2364,7 +2371,7 @@ section {
   padding: 0px 0 0px 10px;
   position: relative;
   display: inline-block;
-  width: calc(100% - 304px);
+  width: calc(100% - 300px);
   height: 100%; }
 
 div.main-wrap {
@@ -2712,13 +2719,12 @@ input:focus, input:active, button:focus, button:active {
 .chat-section__messages-container {
   height: 100%;
   overflow-y: scroll;
+  -ms-overflow-style: none;
   overflow: hidden;
   display: -webkit-flex;
   display: -ms-flex;
   display: flex;
   flex-direction: column; }
-  .chat-section__messages-container::-webkit-scrollbar {
-    display: none; }
   .chat-section__messages-container > div {
     padding-top: 10px;
     width: 100%; }
@@ -2726,7 +2732,9 @@ input:focus, input:active, button:focus, button:active {
     flex-grow: 0;
     height: 90%;
     height: calc(100% - 60px);
-    overflow-y: scroll; }
+    overflow-y: scroll;
+    -ms-overflow-style: scroll;
+    -ms-overflow-style: auto !important; }
 
 .chat-section__messages::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
@@ -3098,3 +3106,128 @@ div.chat-sidebar__message-menu.open {
 
 .chat-section__message-price {
   font-size: 16px; }
+
+.chat-panel {
+  display: none;
+  height: 100%;
+  width: 50px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-right: 1px solid #eee; }
+
+.chat-sidebar.open {
+  display: block;
+  left: 50px;
+  box-shadow: 3px 0px 9px 0px #ddd; }
+
+.chat-panel__sidebar {
+  display: block;
+  z-index: 20000;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: 23px;
+  left: 10px;
+  background: url("/img/sidebar.svg") no-repeat;
+  background-size: 100%; }
+  .chat-panel__sidebar.active {
+    background: url("/img/sidebar-active.svg") no-repeat;
+    background-size: 100%; }
+
+.chat-mobile-messages {
+  z-index: 5;
+  padding: 20px 0;
+  background-color: #fff;
+  position: absolute;
+  left: 50px;
+  top: 0;
+  width: 300px;
+  height: 100%;
+  border-right: 1px solid #eee;
+  box-shadow: 3px 0px 9px 0px #ddd; }
+  .chat-mobile-messages li {
+    list-style-type: none;
+    padding: 0 40px 0 20px;
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px solid #eee;
+    width: 100%;
+    line-height: 3; }
+
+.chat-panel__mobile-messages {
+  display: inline-block;
+  z-index: 20000;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: 63px;
+  left: 10px;
+  background: url("/img/letter.svg") no-repeat;
+  background-size: 100%; }
+  .chat-panel__mobile-messages.active {
+    background: url("/img/letter-active.svg") no-repeat;
+    background-size: 100%; }
+
+.chat-mobile-messages {
+  display: none; }
+  .chat-mobile-messages.open {
+    display: inline-block; }
+  .chat-mobile-messages .message-counter {
+    display: inline-block;
+    line-height: 1.5;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    padding: 1px 6px 0 6px;
+    border-radius: 4px; }
+
+@media (max-width: 1023px) {
+  .tab-content > .tab-pane {
+    position: relative; }
+  .chat-panel {
+    display: inline-block; }
+  .chat-sidebar {
+    position: absolute;
+    background-color: #fff;
+    display: none; }
+  .chat-section__content {
+    width: 100%;
+    padding-left: 60px; } }
+
+@media (max-width: 767px) {
+  .chat-section__nav {
+    display: none; }
+  .chat-section__container {
+    border-top: 1px solid #eee; }
+  .chat-section__message-container {
+    padding-left: 0;
+    width: calc(100% - 45px); }
+  .chat-section__autor-image {
+    width: 40px;
+    height: 40px; }
+  .chat-section__content {
+    padding-left: 50px; }
+  .invoice-message .chat-section__message-text > div {
+    max-width: none; }
+  .chat-section__message-text img {
+    max-width: 250px; }
+  .chat-section__message-invoice {
+    text-align: center;
+    padding-right: 12px; }
+    .chat-section__message-invoice > img {
+      display: inline-block;
+      float: none;
+      margin-right: 0;
+      width: 80px;
+      height: 80px;
+      max-height: none; }
+    .chat-section__message-invoice p {
+      display: block;
+      width: 100%; }
+    .chat-section__message-invoice .chat-section__message-price {
+      position: static;
+      padding-right: 10px;
+      width: 100%;
+      border-left: none;
+      border-top: 1px solid #eee; } }

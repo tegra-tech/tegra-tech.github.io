@@ -20,30 +20,17 @@ $(function() {
   messageLast.scrollTop(height);
 
 
-  // $(".chat-sidebar__message").hover(function() {
-  //   // $(".chat-sidebar__message").add("active");
-  //   $( this ).find(".chat-sidebar__message-menu").addClass("open");
-  // });
+  $(".chat-panel__sidebar").click(function() {
+    $(".chat-mobile-messages").removeClass("open");
+    $( this ).toggleClass("active");
+    $(".chat-sidebar").toggleClass("open");
+  });
 
-  // $(".chat-sidebar__message").mouseleave(function() {
-  //   $( this ).find(".chat-sidebar__message-menu").removeClass("open");
-  // });
-  // $(".chat-section__content").hover(function() {
-  //   $(".chat-sidebar__message-menu").removeClass("open");
-  // });
-
-    // $(".enterText-input").keyup(function() {
-    //   var h1 = $(".chat-section__messages-container").height();
-    //   var h2 = $(".enterText-input").height();
-    //   // $(".chat-section__messages-container").height()
-    //   console.log(h1, h2);
-    //   var h3 = h1 - h2;
-    //   $(".chat-section__messages-container").css('height', h3 + 'px');
-    //   console.log(h3);
-    // });
-
-
-
+  $(".chat-panel__mobile-messages").click(function() {
+    $(".chat-sidebar").removeClass("open");
+    $( this ).toggleClass("active");
+    $(".chat-mobile-messages").toggleClass("open");
+  });
 
   var data = [
       { id: 0, text: '<div class="modalAddGoods-option"><img src="img/1.jpg" alt="good-img"><p>Ipad pro 2017</p><span>$1</span></div>' },
