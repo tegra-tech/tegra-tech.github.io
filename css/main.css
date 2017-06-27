@@ -2803,7 +2803,7 @@ input:focus, input:active, button:focus, button:active {
     height: 0;
     border-style: solid;
     border-width: 10px 5px 0 5px;
-    border-color: #4582ec transparent transparent transparent; }
+    border-color: #ccc transparent transparent transparent; }
 
 .chat-section__message__delete {
   margin: 0 5px;
@@ -2812,29 +2812,35 @@ input:focus, input:active, button:focus, button:active {
   position: absolute;
   left: calc(-100% - 20px);
   padding: 5px 10px;
-  background: #4582EC;
+  background: #fff;
   border-bottom-left-radius: 5px;
   border-top-left-radius: 5px;
-  top: -30px; }
+  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  top: -33px; }
   .chat-section__message__delete:hover {
     cursor: pointer;
-    color: #fff; }
+    color: #4582EC; }
 
 .chat-section__message__copy {
   position: absolute;
-  top: -30px;
+  top: -33px;
   padding: 5px 10px;
   display: inline-block;
   display: none;
   right: calc(-100% - 25px);
-  background: #4582EC;
+  background: #fff;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
+  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+  border-right: 1px solid #ccc;
   white-space: nowrap;
   margin: 0 5px; }
   .chat-section__message__copy:hover {
     cursor: pointer;
-    color: #fff; }
+    color: #4582EC; }
 
 .no-person-image {
   background: url("../img/man.svg") no-repeat center center !important;
@@ -3163,7 +3169,7 @@ div.chat-sidebar__message-menu.open {
     line-height: 3; }
 
 .chat-panel__mobile-messages {
-  display: inline-block;
+  display: none;
   z-index: 20000;
   position: absolute;
   width: 30px;
@@ -3203,10 +3209,6 @@ div.chat-sidebar__message-menu.open {
     padding-left: 60px; } }
 
 @media (max-width: 767px) {
-  .chat-section__nav {
-    display: none; }
-  .chat-section__container {
-    border-top: 1px solid #eee; }
   .chat-section__message-container {
     padding-left: 0;
     width: calc(100% - 45px); }
@@ -3226,8 +3228,8 @@ div.chat-sidebar__message-menu.open {
       display: inline-block;
       float: none;
       margin-right: 0;
-      width: 80px;
-      height: 80px;
+      width: 50px;
+      height: 50px;
       max-height: none; }
     .chat-section__message-invoice p {
       display: block;
@@ -3238,3 +3240,11 @@ div.chat-sidebar__message-menu.open {
       width: 100%;
       border-left: none;
       border-top: 1px solid #eee; } }
+
+@media (max-width: 650px) {
+  .chat-section__nav {
+    display: none; }
+  .chat-section__container {
+    border-top: 1px solid #eee; }
+  .chat-panel__mobile-messages {
+    display: inline-block; } }
