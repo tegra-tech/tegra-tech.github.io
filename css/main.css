@@ -2595,7 +2595,7 @@ input:focus, input:active, button:focus, button:active {
   padding: 10px 30px;
   border-radius: 2px;
   color: #fff; }
-  .modalAddGoods .add-info-button:hover {
+  .modalAddGoods .add-info-button:hover, .modalAddGoods .add-info-button:active, .modalAddGoods .add-info-button:focus, .modalAddGoods .add-info-button:visited {
     color: #fff; }
 
 .chat-section__content-emoji button {
@@ -2628,7 +2628,7 @@ input:focus, input:active, button:focus, button:active {
   padding: 10px; }
 
 .chat-section__content-emoji .dropdown-menu {
-  min-width: 168px;
+  min-width: 252px;
   left: auto;
   right: 0; }
 
@@ -2677,7 +2677,8 @@ input:focus, input:active, button:focus, button:active {
   right: 4px; }
 
 .select2-container--default .select2-selection--single {
-  border: 1px solid #ccc; }
+  border: 1px solid #ccc;
+  border-radius: 2px; }
 
 .select2-results__option .col-sm-6, .select2-results__option .col-sm-3 {
   margin-top: 15px;
@@ -2690,7 +2691,7 @@ input:focus, input:active, button:focus, button:active {
     color: red;
     font-size: 25px; }
 
-.modalAddGoods-price {
+.modalAddGoods-price, .modalAddGoods-discount {
   width: 100%;
   margin: 0px;
   height: 40px;
@@ -2700,6 +2701,8 @@ input:focus, input:active, button:focus, button:active {
   font-size: 16px;
   text-align: right;
   padding: 0px 8px 0 8px; }
+  .modalAddGoods-price:focus, .modalAddGoods-discount:focus {
+    border: 1px solid #4582EC; }
 
 .select-style select {
   padding: 0px 8px;
@@ -3026,6 +3029,10 @@ div.chat-sidebar__message-menu.open {
   right: auto;
   width: 500px !important; }
 
+.select2-container--open .select2-selection--single {
+  border: 1px solid #4582EC;
+  border-radius: 2px; }
+
 .select2-container {
   width: 560px !important; }
 
@@ -3041,7 +3048,7 @@ div.chat-sidebar__message-menu.open {
   padding: 10px 30px;
   border-radius: 2px;
   margin-right: 20px; }
-  .modalAddGoods .modalAddGoods__create-button:hover {
+  .modalAddGoods .modalAddGoods__create-button:hover, .modalAddGoods .modalAddGoods__create-button:active, .modalAddGoods .modalAddGoods__create-button:focus, .modalAddGoods .modalAddGoods__create-button:visited {
     color: #fff; }
 
 .modalAddGoods-option {
